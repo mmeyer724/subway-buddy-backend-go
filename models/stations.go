@@ -16,6 +16,7 @@ type Station struct {
 	Location   *Location `json:"location"`
 	NorthLabel string    `json:"north_label"`
 	SouthLabel string    `json:"south_label"`
+	Trains     []Train
 }
 
 type Location struct {
@@ -23,7 +24,7 @@ type Location struct {
 	Longitude float64 `json:"lng"`
 }
 
-var stations = make(map[string]Station)
+var stations = make(map[string]*Station)
 
 func init() {
 	csvFile, _ := pkger.Open("/resources/Stations.csv")
@@ -50,7 +51,7 @@ func init() {
 			panic(err)
 		}
 
-		stations[line[2]] = Station{
+		stations[line[2]] = &Station{
 			ID:   line[2],
 			Name: line[5],
 			Location: &Location{
@@ -63,6 +64,15 @@ func init() {
 	}
 }
 
-func GetStation(id string) Station {
+func StationExists(id string) bool {
+	_, exists := stations[id]
+	return exists
+}
+
+func GetStation(id string) *Station {
 	return stations[id]
+}
+
+func SetTrains(id string, trains []Train) {
+	stations[id].Trains = trains
 }

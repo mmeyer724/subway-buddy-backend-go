@@ -14,7 +14,7 @@ type Stop struct {
 	StationID string `json:"station_id"`
 }
 
-var stops = make(map[string]Stop)
+var stops = make(map[string]*Stop)
 
 func init() {
 	csvFile, _ := pkger.Open("/resources/stops.txt")
@@ -38,13 +38,13 @@ func init() {
 			stationID = line[0]
 		}
 
-		stops[line[0]] = Stop{
+		stops[line[0]] = &Stop{
 			ID:        line[0],
 			StationID: stationID,
 		}
 	}
 }
 
-func GetStop(id string) Stop {
+func GetStop(id string) *Stop {
 	return stops[id]
 }
