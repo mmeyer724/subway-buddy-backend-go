@@ -26,6 +26,7 @@ var feedUrls = []string{
 var client = &http.Client{}
 
 func PullFeed() {
+	log.Println("Pulling feed...")
 	var trainsByStation = make(map[string][]models.Train)
 
 	for _, url := range feedUrls {
